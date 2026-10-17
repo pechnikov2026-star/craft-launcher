@@ -250,7 +250,7 @@ fn harness_full(
     let settings = Settings { view, notify: false, ..Settings::default() };
     // No `.wgpu()`: it gives every test its own GPU device, and those segfault on parallel test threads (see above).
     // The default renderer creates one only when a test renders.
-    let harness = Harness::builder().with_size(egui::vec2(1180.0, 900.0)).with_pixels_per_point(scale).with_theme(theme).build_ui_state(
+    let harness = Harness::builder().with_size(egui::vec2(1180.0, 1200.0)).with_pixels_per_point(scale).with_theme(theme).build_ui_state(
         move |ui, state: &mut Option<LauncherUi>| {
             if state.is_none()
                 && let Some(b) = backend.take()
@@ -448,7 +448,7 @@ fn keeps_working_with_no_window_then_draws_in_a_new_one() {
     assert_eq!(ui.settings.last_check, Some(NOW - 180));
 
     let mut attached = false;
-    let mut h = Harness::builder().with_size(egui::vec2(1180.0, 900.0)).build_ui_state(
+    let mut h = Harness::builder().with_size(egui::vec2(1180.0, 1200.0)).build_ui_state(
         move |egui_ui, state: &mut LauncherUi| {
             if !attached {
                 attached = true;
@@ -827,7 +827,7 @@ fn links_to_the_website_github_and_each_apps_pages() {
     // The table's … menu has the app's website and GitHub repo.
     let (mut h, _) = harness(ViewMode::Table, egui::Theme::Dark, true);
     h.run_steps(6);
-    h.get_all_by_label("…").nth(7).unwrap().click(); // WordCraft
+    h.get_all_by_label("…").nth(8).unwrap().click(); // WordCraft
     h.run_steps(3);
     h.get_by_label("GitHub repository");
     // The footer's Website link and WordCraft's now-live one in the menu.
@@ -890,7 +890,7 @@ fn looks_again_at_installed_apps_every_few_minutes_not_every_frame() {
     let clock = Rc::new(Cell::new(NOW));
     let mut backend =
         Some(Fake { events: events(), sent: sent.clone(), manage: true, pictures: Rc::default(), asked: Vec::new(), clock: clock.clone() });
-    let mut h = Harness::builder().with_size(egui::vec2(1180.0, 900.0)).build_ui_state(
+    let mut h = Harness::builder().with_size(egui::vec2(1180.0, 1200.0)).build_ui_state(
         move |ui, state: &mut Option<LauncherUi>| {
             if state.is_none()
                 && let Some(b) = backend.take()
@@ -956,7 +956,7 @@ fn the_launcher_updates_itself_and_quits_to_restart() {
         inner: Fake { events, sent: sent.clone(), manage: true, pictures: Rc::default(), asked: Vec::new(), clock: Rc::new(Cell::new(NOW)) },
         later: shared_events.clone(),
     });
-    let mut h = Harness::builder().with_size(egui::vec2(1180.0, 900.0)).build_ui_state(
+    let mut h = Harness::builder().with_size(egui::vec2(1180.0, 1200.0)).build_ui_state(
         move |ui, state: &mut Option<LauncherUi>| {
             if state.is_none()
                 && let Some(b) = backend.take()
@@ -1035,7 +1035,7 @@ fn feed_announcements_and_alerts_show_until_dismissed() {
         alerts: vec![notice("x1", "Security update", Some("https://getartcraft.com/security"))],
     });
     let mut backend = Some(Fake { events: evs, sent, manage: true, pictures: Rc::default(), asked: Vec::new(), clock: Rc::new(Cell::new(NOW)) });
-    let mut h = Harness::builder().with_size(egui::vec2(1180.0, 900.0)).build_ui_state(
+    let mut h = Harness::builder().with_size(egui::vec2(1180.0, 1200.0)).build_ui_state(
         move |ui, state: &mut Option<LauncherUi>| {
             if state.is_none()
                 && let Some(b) = backend.take()
@@ -1083,7 +1083,7 @@ fn automatic_updates_queue_installs_for_outdated_apps_and_launcher() {
     let sent2 = sent.clone();
     let mut backend =
         Some(Fake { events: ev, sent: sent2, manage: true, pictures: Rc::default(), asked: Vec::new(), clock: Rc::new(Cell::new(NOW)) });
-    let mut h = Harness::builder().with_size(egui::vec2(1180.0, 900.0)).build_ui_state(
+    let mut h = Harness::builder().with_size(egui::vec2(1180.0, 1200.0)).build_ui_state(
         move |ui, state: &mut Option<LauncherUi>| {
             if state.is_none()
                 && let Some(b) = backend.take()
@@ -1112,7 +1112,7 @@ fn automatic_updates_are_disabled_by_default() {
     let sent2 = sent.clone();
     let mut backend =
         Some(Fake { events: ev, sent: sent2, manage: true, pictures: Rc::default(), asked: Vec::new(), clock: Rc::new(Cell::new(NOW)) });
-    let mut h = Harness::builder().with_size(egui::vec2(1180.0, 900.0)).build_ui_state(
+    let mut h = Harness::builder().with_size(egui::vec2(1180.0, 1200.0)).build_ui_state(
         move |ui, state: &mut Option<LauncherUi>| {
             if state.is_none()
                 && let Some(b) = backend.take()
@@ -1139,7 +1139,7 @@ fn the_footer_names_the_services_behind_what_is_on_screen() {
         evs.extend(extra);
         let sent = Rc::new(RefCell::new(Vec::new()));
         let mut backend = Some(Fake { events: evs, sent, manage: true, pictures: Rc::default(), asked: Vec::new(), clock: Rc::new(Cell::new(NOW)) });
-        let mut h = Harness::builder().with_size(egui::vec2(1180.0, 900.0)).build_ui_state(
+        let mut h = Harness::builder().with_size(egui::vec2(1180.0, 1200.0)).build_ui_state(
             move |ui, state: &mut Option<LauncherUi>| {
                 if state.is_none()
                     && let Some(b) = backend.take()
@@ -1189,7 +1189,7 @@ fn custom_title_bar_has_window_buttons() {
         asked: Vec::new(),
         clock: Rc::new(Cell::new(NOW)),
     });
-    let mut h = Harness::builder().with_size(egui::vec2(1180.0, 900.0)).build_ui_state(
+    let mut h = Harness::builder().with_size(egui::vec2(1180.0, 1200.0)).build_ui_state(
         move |ui, state: &mut Option<LauncherUi>| {
             if state.is_none()
                 && let Some(b) = backend.take()
@@ -1686,6 +1686,82 @@ fn with_animations_on_hovering_a_card_animates() {
     // The rule wipes in and the icon rises over 0.3 s, at 60 frames a second.
     let frames = frames_to_hover_the_next_card(&mut h);
     assert!(frames >= 10, "{frames} frames");
+}
+
+#[test]
+fn control_wheel_zooms_the_main_ui() {
+    let (mut h, _) = harness(ViewMode::Grid, egui::Theme::Dark, true);
+    h.run_steps(4);
+    let before = h.ctx.zoom_factor();
+    h.input_mut().events.push(egui::Event::MouseWheel {
+        unit: egui::MouseWheelUnit::Point,
+        phase: egui::TouchPhase::Move,
+        delta: egui::vec2(0.0, 100.0),
+        modifiers: egui::Modifiers::COMMAND,
+    });
+    h.step();
+    h.run_steps(2);
+    assert!(h.ctx.zoom_factor() > before);
+}
+
+#[test]
+fn changelog_shortcuts_zoom_only_the_notes_text() {
+    let (mut h, _) = harness(ViewMode::Grid, egui::Theme::Dark, true);
+    h.run_steps(4);
+    h.get_all_by_label("…").next().unwrap().click();
+    h.run_steps(2);
+    h.get_by_label("Release notes").click();
+    h.run_steps(4);
+    let before = h.get_by_label("What's Changed").rect().height();
+    let global = h.ctx.zoom_factor();
+    h.key_press_modifiers(egui::Modifiers::COMMAND, egui::Key::Plus);
+    h.run_steps(3);
+    assert_eq!(h.ctx.zoom_factor(), global, "zooming notes must not resize the main UI");
+    assert!(h.get_by_label("What's Changed").rect().height() > before);
+
+    h.key_press_modifiers(egui::Modifiers::COMMAND, egui::Key::Num0);
+    h.run_steps(3);
+    assert!((h.get_by_label("What's Changed").rect().height() - before).abs() < 0.5);
+    h.input_mut().events.push(egui::Event::MouseWheel {
+        unit: egui::MouseWheelUnit::Point,
+        phase: egui::TouchPhase::Move,
+        delta: egui::vec2(0.0, 100.0),
+        modifiers: egui::Modifiers::COMMAND,
+    });
+    h.step();
+    h.run_steps(2);
+    assert_eq!(h.ctx.zoom_factor(), global);
+    let larger = h.get_by_label("What's Changed").rect().height();
+    assert!(larger > before);
+    h.key_press_modifiers(egui::Modifiers::COMMAND, egui::Key::Minus);
+    h.run_steps(3);
+    assert!(h.get_by_label("What's Changed").rect().height() < larger);
+    snapshot(&mut h, "notes-zoomed");
+    h.get_by_label("Close").click();
+    h.run_steps(3);
+    assert_eq!(h.ctx.zoom_factor(), global);
+    h.key_press_modifiers(egui::Modifiers::COMMAND, egui::Key::Equals);
+    h.run_steps(3);
+    assert!(h.ctx.zoom_factor() > global, "main-UI keyboard zoom should still work after closing notes");
+}
+
+#[test]
+fn command_m_minimizes_the_mac_window_only() {
+    use artcraft_launcher_ui_egui::TitleBar;
+    for bar in [TitleBar::MacOs, TitleBar::Native, TitleBar::Custom] {
+        let (mut h, _) = harness_with_title_bar(events(), ViewMode::Grid, egui::Theme::Dark, true, 1.0, bar);
+        h.run_steps(4);
+        h.input_mut().events.push(egui::Event::Key {
+            key: egui::Key::M,
+            physical_key: None,
+            pressed: true,
+            repeat: false,
+            modifiers: egui::Modifiers::MAC_CMD,
+        });
+        h.step();
+        let minimized = h.output().viewport_output.values().any(|v| v.commands.iter().any(|c| matches!(c, egui::ViewportCommand::Minimized(true))));
+        assert_eq!(minimized, bar == TitleBar::MacOs, "{bar:?}");
+    }
 }
 
 #[test]
